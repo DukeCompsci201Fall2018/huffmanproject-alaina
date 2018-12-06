@@ -42,16 +42,16 @@ public class HuffProcessor {
 	 */
 	public void compress(BitInputStream in, BitOutputStream out){
 
-		int[] counts = readForCounts(in);
-		HuffNode root = makeTreeFromCounts(counts);
-		String[] codings = makeCodingsFrom Tree(root);
-		
-		out.writeBits(BITS_PER_INT, HUFF_TREE);
-		writeHeader(root, out);
-		
-		in.reset();
-		writeCompressedBits(codings, in , out);
-		out.close();
+//		int[] counts = readForCounts(in);
+//		HuffNode root = makeTreeFromCounts(counts);
+//		String[] codings = makeCodingsFrom Tree(root);
+//		
+//		out.writeBits(BITS_PER_INT, HUFF_TREE);
+//		writeHeader(root, out);
+//		
+//		in.reset();
+//		writeCompressedBits(codings, in , out);
+//		out.close();
 	}
 	
 	/**
