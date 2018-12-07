@@ -53,7 +53,7 @@ public class HuffProcessor {
 		out.close();
 	}
 	
-	public int[] readForCounts(BitInputStream in) {
+	private int[] readForCounts(BitInputStream in) {
 		/**Create an integer array that can store 257 values (use ALPH_SIZE + 1). 
 		 * You'll read 8-bit characters/chunks, (using BITS_PER_WORD rather than 8), 
 		 * and use the read/8-bit value as an index into the array, incrementing the 
@@ -72,7 +72,7 @@ public class HuffProcessor {
         return counts;
 	}
 	
-	public HuffNode makeTreeFromCounts(int[] counts) {
+	private HuffNode makeTreeFromCounts(int[] counts) {
 		PriorityQueue<HuffNode> pq = new PriorityQueue<>();
         if (myDebugLevel == DEBUG_HIGH) {
             System.out.printf("%5s %10s\n", "chunks", "freq");
@@ -99,7 +99,7 @@ public class HuffProcessor {
         return pq.remove();
     }
 	
-	public String[] makeCodingsFromTree(HuffNode root) {
+	private String[] makeCodingsFromTree(HuffNode root) {
 		 String[] encodings = new String[ALPH_SIZE + 1];
 		 codingHelper(root, "", encodings);
 		 return encodings;
@@ -112,7 +112,7 @@ public class HuffProcessor {
 	  * subtree and adding "1" to the path when making a recursive call on the right subtree. 
 	  * Every node in a Huffman tree has two children.
 	  */
-	public void codingHelper(HuffNode root, String path, String[] encodings) {
+	private void codingHelper(HuffNode root, String path, String[] encodings) {
 		 if (root.myLeft == null && root.myRight == null) {
 		        encodings[root.myValue] = path;
 		        if (myDebugLevel >= DEBUG_HIGH) {
@@ -125,7 +125,7 @@ public class HuffProcessor {
 		 }
 	}
 	
-	public void writeHeader(HuffNode root, BitOutputStream out) {
+	private void writeHeader(HuffNode root, BitOutputStream out) {
 		/**Else, if the node is a leaf, write a single bit of one, followed by nine bits of 
 		 * the value stored in the leaf.  This is a pre-order traversal: write one bit for the node, 
 		 * then make two recursive calls if the node is an internal node. No recursion is used for leaf nodes.
@@ -145,7 +145,7 @@ public class HuffProcessor {
 	   }
 	}
 	
-	public void writeCompressedBits(String [] codings, BitInputStream in, BitOutputStream out) {
+	private void writeCompressedBits(String [] codings, BitInputStream in, BitOutputStream out) {
 		int c;
         while ((c = in.readBits(BITS_PER_WORD)) != -1) {
             String code = codings[c];
@@ -184,7 +184,7 @@ public class HuffProcessor {
 		out.close();
 	}
 
-	public HuffNode readTreeHeader(BitInputStream in) {
+	private HuffNode readTreeHeader(BitInputStream in) {
 	int bit = in.readBits(1);
 	while (bit != PSEUDO_EOF) {
 		if (bit == -1) throw new HuffException("reader failed");
@@ -202,7 +202,7 @@ public class HuffProcessor {
 
 	}
 	
-	public void readCompressedBits(HuffNode root, BitInputStream in , BitOutputStream out) {
+	private void readCompressedBits(HuffNode root, BitInputStream in , BitOutputStream out) {
 	 HuffNode current = root; 
 	   while (true) {
 	       int bits = in.readBits(1);
