@@ -98,8 +98,6 @@ public class HuffProcessor {
         }
         return pq.remove();
     }
-
-	}
 	
 	public String[] makeCodingsFromTree(HuffNode root) {
 		 String[] encodings = new String[ALPH_SIZE + 1];
